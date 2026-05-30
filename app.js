@@ -1,6 +1,6 @@
 const monsters = {
   Damage:[
-    "monsters/Flex.png", // Flexible Draft
+    "Flex.png", // Flexible Draft
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0205_1_3.png", // Wind Legolas
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0205_1_4.png", // Light Legolas
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0074_3_2.png", // Fater HIgh Elemental
@@ -113,7 +113,7 @@ const monsters = {
   ],
 
   Support:[
-    "monsters/Water_Gandalf.png", // test
+    "Water_Gandalf.png", // test
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0082_3_4.png", // Light Vagabond
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0204_1_1.png", // Water Gandalf
     "https://do9d4mpqk497d.cloudfront.net/common/images/monsters/unit_icon_0204_1_3.png", // Wind Gandalf
