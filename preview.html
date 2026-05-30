@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="steem.css">
+</head>
+
+<body class="preview">
+
+<div id="top">
+
+<div class="player-label left-label">1st Player</div>
+
+<div class="team left">
+ <div class="slot"><img></div>
+ <div class="grid">
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+ </div>
+</div>
+
+<div id="vs">VS</div>
+
+<div class="team right">
+ <div class="grid">
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+  <div class="slot"><img></div>
+ </div>
+ <div class="slot"><img></div>
+ <div class="player-label right-label">2nd Player</div>
+</div>
+
+<div id="export">
+    <button id="exportBtn">Save</button>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+const data=JSON.parse(localStorage.getItem("draftSnapshot")||"[]");
+const slots=document.querySelectorAll(".slot");
+
+data.forEach((m,i)=>{
+ if(!slots[i])return;
+
+ const img=slots[i].querySelector("img");
+
+ if(img && m.bg){
+
+ const url = m.bg
+ .replace(/^url\(["']?/, "")
+ .replace(/["']?\).*/, "");
+
+ fetch(url)
+ .then(r=>r.blob())
+ .then(b=>{
+   const reader=new FileReader();
+   reader.onload=()=>{
+     img.src=reader.result; // base64
+   };
+   reader.readAsDataURL(b);
+ });
+
+ img.src = url;
+
+}
+
+
+ slots[i].classList.toggle("ban",m.ban);
+ slots[i].classList.toggle("leader",m.leader);
+});
+
+
+document.getElementById("exportBtn").onclick=()=>{
+
+html2canvas(document.getElementById("top"),{
+ useCORS:true,
+ allowTaint:true,
+ backgroundColor:"#120b05",
+ scale:2
+}).then(canvas=>{
+
+// ทำให้ภาพกว้างขึ้น เตี้ยลง
+const targetWidth = canvas.width * 1;   // เพิ่มความกว้าง 30%
+const targetHeight = canvas.height * 1; // ลดความสูง 25%
+
+const out = document.createElement("canvas");
+out.width = targetWidth;
+out.height = targetHeight;
+
+const ctx = out.getContext("2d");
+
+// เติมพื้นหลังสีเดิม
+ctx.fillStyle = "#120b05";
+ctx.fillRect(0,0,out.width,out.height);
+
+// วาดภาพต้นฉบับให้อยู่กลาง
+ctx.drawImage(
+canvas,
+(targetWidth - canvas.width)/2,
+(targetHeight - canvas.height)/2
+);
+
+let link=document.createElement("a");
+link.download="draft.png";
+link.href=out.toDataURL();
+link.click();
+
+});
+
+
+};
+
+</script>
+
+</body>
+</html>
